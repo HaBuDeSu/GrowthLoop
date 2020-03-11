@@ -1,37 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Form, FormGroup, Label, Input, FormText, Button} from 'reactstrap';
-import GoogleLogin from 'react-google-login';
+import axios from 'axios';
 
-const Login = () => {
+const Login = props => {
 
-    const responseGoogle = response => {
-        console.log(response)
+    let [creds, setCreds] = useState({
+        email: "",
+        password: ""
+    })
+
+    const login = async () => {
+        await axios.post('https://growthloop.herokuapp.com/api/users/login', creds)
     }
 
     return (
         <div className="container">
-            <p>Registration</p>
-            <Form>
-                <FormText>Create New Account</FormText>
+            <p>Login</p>
+            <Form onSubmit={login}>
+                <FormText>Login To Your Account</FormText>
                 <FormGroup>
-                    <Label>Organization Name</Label>
+                    <Label>Email</Label>
                     <Input></Input>
                 </FormGroup>
                 <FormGroup>
-                    <Label></Label>
+                    <Label>Password</Label>
                     <Input></Input>
                 </FormGroup>
-                <FormGroup>
-                    <Label></Label>
-                    <Input></Input>
-                </FormGroup>
-                <GoogleLogin
-                    clientId="752518174510-oegifrfcr3ri8ij0hit6anfrq9e5kadn.apps.googleusercontent.com"
-                    buttonText="Login With Google"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                />
             </Form>
         </div>
     )
