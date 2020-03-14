@@ -1,38 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Form, FormGroup, Label, Input, FormText, Button} from 'reactstrap';
-import GoogleLogin from 'react-google-login';
+import axios from 'axios';
 
-const Login = () => {
+const Login = props => {
 
-    const responseGoogle = response => {
-        console.log(response)
+    let [credentials, setCredentials] = useState({
+        email: "",
+        password: ""
+    })
+
+    const [message, setMessage] = useState("")
+
+    const handleChange = event => {
+        setCredentials({
+            ...credentials,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const login = async event => {
+        event.preventDefault()
+        await axios.post('https://growthloop.herokuapp.com/api/users/login', credentials)
+            .then(res => {
+                localStorage.setItem("token", res.data.token)
+                props.history.push("/dashboard")
+            })
+            .catch(err => setMessage("Invalid Credentials"))
     }
 
     return (
         <div className="container">
-            <p>Registration</p>
-            <Form>
-                <FormText>Create New Account</FormText>
+            <p>Login</p>
+            <Form onSubmit={login}>
+                <FormText>Login To Your Account</FormText>
                 <FormGroup>
-                    <Label>Organization Name</Label>
-                    <Input></Input>
+                    <Label>Email</Label>
+                    <Input onChange={handleChange} name="email"></Input>
                 </FormGroup>
                 <FormGroup>
-                    <Label></Label>
-                    <Input></Input>
+                    <Label>Password</Label>
+                    <Input type="password" onChange={handleChange} name="password"></Input>
                 </FormGroup>
-                <FormGroup>
-                    <Label></Label>
-                    <Input></Input>
-                </FormGroup>
-                <GoogleLogin
-                    clientId="752518174510-oegifrfcr3ri8ij0hit6anfrq9e5kadn.apps.googleusercontent.com"
-                    buttonText="Login With Google"
-                    onSuccess={responseGoogle}
-                    onFailure={responseGoogle}
-                    cookiePolicy={'single_host_origin'}
-                />
+                <Button>Login</Button>
             </Form>
+            <p>{message}</p>
         </div>
     )
 }
