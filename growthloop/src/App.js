@@ -14,6 +14,7 @@ function App() {
       <Route exact path="/register" component={Registration}/>
       <Route exact path="/login" component={Login}/>
       <Route exact path="/dashboard" component = {Dashboard} />
+      <Route exact path="/funnel/:id" component = {Funnel} />
     </Router>
   );
 }

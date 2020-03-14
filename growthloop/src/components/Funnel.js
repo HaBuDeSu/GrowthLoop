@@ -1,12 +1,25 @@
-import React from 'react';
-import Event from './Event'
+import React, {useState, useEffect} from 'react';
+import Event from './Event';
+import AddEvent from './AddEvent';
+import {Button, Modal} from 'reactstrap';
+import axios from 'axios';
 
-const Funnel = () => {
+const Funnel = props => {
+
+    const [events, setEvents] = useState([])
+    const [modal, setModal] = useState(false)
+    const toggle = () => setModal(!modal)
+
+    useEffect(() => {
+
+    })
 
     return(
         <div classname="Funnel">
             <h1 className="funnelName">{this.state.funnelName}</h1>
-            {this.state.events.map(event => <Event event={event}/>)}
+            {events.map(event => <Event event={event}/>)}
+            <Button>Add Event</Button>
+            <Modal isOpen={modal} toggle={toggle}><AddEvent eventId={props.match.id}/></Modal>
         </div>
     )
 }
