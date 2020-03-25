@@ -2,8 +2,8 @@ import React from 'react';
 
 function Event (props) {
     return (
-        <div>
-            
+        <div className="event">
+            <p>{props.event.name}</p>
         </div>
     )
 }

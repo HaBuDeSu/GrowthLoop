@@ -11,7 +11,9 @@ const Funnel = props => {
     const toggle = () => setModal(!modal)
 
     useEffect(() => {
-
+        axios.get('https://growthloop.herokuapp.com/api/funnels')
+            .then(res => setEvents(res.data))
+            .catch()
     })
 
     return(
